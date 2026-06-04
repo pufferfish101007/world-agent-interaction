@@ -1,0 +1,28 @@
+{
+  "name": "world-agent-interaction",
+  "version": "1.0.0",
+  "main": "dist/main.js",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint .",
+    "build": "tsc --project tsconfig.json",
+    "start": "node dist/main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MPL-2.0",
+  "description": "",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^25.9.1",
+    "eslint": "^10.4.1",
+    "prettier": "^3.8.3",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.60.1"
+  },
+  "dependencies": {
+    "@google/genai": "^2.7.0",
+    "zod": "^4.4.3",
+    "zod-to-json-schema": "^3.25.2"
+  }
+}
