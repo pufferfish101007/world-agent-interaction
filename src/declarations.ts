@@ -43,7 +43,7 @@ function createDeclaration(
 
 createDeclaration(
     'moveSteps',
-    'Moves the specified number of steps (where a step is 1m) in the current yzDir. \
+    'Moves the specified number of steps (where a step is 1m) in the current xzDir. \
     Returns the new position & rotation state.',
     {
         steps: {
@@ -56,8 +56,8 @@ createDeclaration(
 
 createDeclaration(
     'setRotateHoriz',
-    'Sets the direction of the robot, relative to the yz plane, in degrees, in [0, 360), \
-    where 0 is facing the positive y direction, and positive directions go anticlockwise. \
+    'Sets the direction of the robot, relative to the xz plane, in degrees, in [0, 360), \
+    where 0 is facing the positive x direction, and positive directions go anticlockwise. \
     Returns the new state.',
     {
         degrees: {

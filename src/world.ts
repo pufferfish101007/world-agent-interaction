@@ -21,16 +21,16 @@ export class World {
      */
     z: number = 1;
 
-    /** The rotation relative to the y-z plane (i.e. left-right)
+    /** The rotation relative to the x-z plane (i.e. left-right)
      * in degrees, in the range [0, 360)
      *
      * To match up with the standard unit circle (sort of), we define the
      * directions to be:
-     * 0  -> parallel to the y-z plane, facing the positive end of the y axis
-     * 90 -> perpendicular to the y-z plane, facing the negative end of the
-     *       x axis
+     * 0  -> parallel to the x-z plane, facing the positive end of the x axis
+     * 90 -> perpendicular to the x-z plane, facing the positive end of the
+     *       y axis
      */
-    yzDir: number = 0;
+    xzDir: number = 0;
 
     /** The rotation relative to the x-y plane (i.e. up-down) in degrees,
      * in the range [-50, 50]. Limited angle because a restricted range of
@@ -44,18 +44,18 @@ export class World {
     xyRot: number = 0;
 
     moveSteps({ steps }: { steps: number }) {
-        this.y += steps * Math.cos(degreesToRadians(this.yzDir));
-        this.x += steps * Math.sin(degreesToRadians(this.yzDir));
+        this.x += steps * Math.cos(degreesToRadians(this.xzDir));
+        this.y += steps * Math.sin(degreesToRadians(this.xzDir));
 
         // TODO: check for collisions with objects/boundaries
     }
 
     rotateHoriz({ degrees }: { degrees: number }) {
-        this.setRotateHoriz({ degrees: this.yzDir + degrees });
+        this.setRotateHoriz({ degrees: this.xzDir + degrees });
     }
 
     setRotateHoriz({ degrees }: { degrees: number }) {
-        this.yzDir = degrees % 360;
+        this.xzDir = degrees % 360;
     }
 
     rotateVert({ degrees }: { degrees: number }) {
@@ -89,7 +89,7 @@ export class World {
             y: this.y,
             z: this.z,
             xyRot: this.xyRot,
-            yzDir: this.yzDir,
+            xzDir: this.xzDir,
         };
     }
 }

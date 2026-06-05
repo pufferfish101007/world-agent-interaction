@@ -1,5 +1,6 @@
 /** Measure the dimensions of an empty, closed, cuboid room (cuboidal?),
-  * with the agent starting in the centre and facing a wall. */
+ * with the agent starting in an unknown position and direction.
+ */
 
 import * as zod from 'zod';
 import { World as BaseWorld } from '../world.ts';
@@ -34,7 +35,8 @@ should backtrack to get back inside of the room. Do not simply guess by assuming
 dimensions. Do not collect redundant data; once you have calculated a dimension you should
 not try to check it unless it directly conflicts with other calculations.
 
-You may assume that you are initially placed facing one of the walls, in the centre of the room.
+You may assume that the origin is somewhere inside the room, but whereabouts is unspecified.
+The walls lie at 45 degree angles compared to the starting angle (but at 90 degrees to each other).
 
 To measure height, you will need to use some trigonometry, but you may also need to move
 to ensure that your sensor senses the floor and not a wall, depending on the angle;
@@ -43,7 +45,8 @@ but this may not be necessary. Use reasoning or calculation to determine what is
 Be aware that when trying to measure the distance to the ceiling, you might clip the wall instead.
 Because of this, you should aim to use steep vertical angles (up to 50 degrees) to measure the
 ceiling height. You can also move closer to a wall, and measure away from that wall to give
-more room to avoid clipping the opposite wall.`;
+more room to avoid clipping the opposite wall.
+`;
 
 export class World extends BaseWorld {
     static WIDTH = 15;
@@ -52,15 +55,23 @@ export class World extends BaseWorld {
 
     static PLANES = [
         new Plane(new Vec3(1, 0, 0), new Vec3(0, 1, 0), new Vec3(0, 0, 0)),
-        new Plane(new Vec3(1, 0, 0), new Vec3(0, 1, 0), new Vec3(0, 0, 3)),
-        new Plane(new Vec3(0, 0, 1), new Vec3(0, 1, 0), new Vec3(-4.5, 0, 0)),
-        new Plane(new Vec3(0, 0, 1), new Vec3(0, 1, 0), new Vec3(4.5, 0, 0)),
-        new Plane(new Vec3(1, 0, 0), new Vec3(0, 0, 1), new Vec3(0, -7.5, 0)),
-        new Plane(new Vec3(1, 0, 0), new Vec3(0, 0, 1), new Vec3(0, 7.5, 0)),
+        new Plane(new Vec3(1, 0, 0), new Vec3(0, 1, 0), new Vec3(0, 0, 2.5)),
+        new Plane(new Vec3(0, 0, 1), new Vec3(1, -1, 0), new Vec3(-3, -3, 0)),
+        new Plane(new Vec3(0, 0, 1), new Vec3(1, -1, 0), new Vec3(3, 3, 0)),
+        new Plane(new Vec3(0, 0, 1), new Vec3(1, 1, 0), new Vec3(0, 0, 0)),
+        new Plane(new Vec3(0, 0, 1), new Vec3(1, 1, 0), new Vec3(-3, 3, 0)),
     ];
+
+    // Width: 6 sqrt(2), approx 8.49m
+    // Depth: 3 sqrt(2), approx 4.24m
+    // Height: 2.5m
 
     constructor() {
         super();
+
+        this.x = -1;
+        this.y = 1;
+        this.setRotateHoriz({ degrees: 90 });
     }
 
     // TODO: stop agent from walking through walls

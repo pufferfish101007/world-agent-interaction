@@ -101,7 +101,9 @@ export class Plane {
         // Then the point of intersection is a + k d
         console.log(this.n, this.c, this.n.dot(this.c));
         const k = (this.n.dot(this.c) - this.n.dot(L.a)) / this.n.dot(L.d);
+        // return infinity if the collision was behind us, or parallel to us
         if (k < 0) return new Vec3(Infinity, Infinity, Infinity);
+        if (this.n.dot(this.c) === this.n.dot(L.a)) return new Vec3(Infinity, Infinity, Infinity);
         return L.d.scale(k).add(L.a);
     }
 }

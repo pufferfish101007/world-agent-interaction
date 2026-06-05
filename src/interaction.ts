@@ -34,7 +34,7 @@ in degrees.
 
 Unless otherwise specified, all functions will return the current state:
 x, y and z positions, along with \`xyRot\`, the vertical tilt relative to the xy plane,
-and \`yzDir\`, the angle you are facing (relative to the yz plane).
+and \`xzDir\`, the angle you are facing (relative to the xz plane).
 
 \`getSensorData\` returns an array of data from the sensor; this is a singleton array
 as there is only one sensor. The data in each element of the array is a number in metres.
@@ -218,6 +218,7 @@ export class Agent extends GoogleGenAI {
                 'interactions used'
             );
             const input = input_queue.shift()!;
+            await new Promise((res) => setTimeout(res, 4000)); // just to make sure we don't hit the rate limit of 15 reqs/min
             const response = await this.#interact(input, task.jsonSchema);
             output_text = response.output_text;
             steps = response.steps;
