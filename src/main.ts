@@ -1,8 +1,7 @@
-import { loadEnvFile, env } from 'node:process';
-import { GoogleGenAI } from '@google/genai';
+import { Agent } from './interaction.ts';
+import { tasks } from './tasks.ts';
 
-loadEnvFile();
-const { MODEL } = env;
+const agent = new Agent();
 
-const ai = new GoogleGenAI({});
 
+console.log(await agent.execute_task(tasks.measure_room_simple));

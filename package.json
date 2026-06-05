@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint .",
     "build": "tsc --project tsconfig.json",
-    "start": "node dist/main.js"
+    "start": "node --enable-source-maps dist/main.js"
   },
   "keywords": [],
   "author": "",
@@ -21,7 +21,7 @@
     "typescript-eslint": "^8.60.1"
   },
   "dependencies": {
-    "@google/genai": "^2.7.0",
+    "@google/genai": "^2.8.0",
     "zod": "^4.4.3",
     "zod-to-json-schema": "^3.25.2"
   }

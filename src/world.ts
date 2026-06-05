@@ -41,11 +41,11 @@ export class World {
      * x-y plane (towards negative z values), and positive angles look above the
      * x-y plane
      */
-    xyRot: number = 90;
+    xyRot: number = 0;
 
     moveSteps({ steps }: { steps: number }) {
-        this.y += steps * Math.cos(degreesToRadians(steps));
-        this.x += steps * Math.sin(degreesToRadians(steps));
+        this.y += steps * Math.cos(degreesToRadians(this.yzDir));
+        this.x += steps * Math.sin(degreesToRadians(this.yzDir));
 
         // TODO: check for collisions with objects/boundaries
     }
