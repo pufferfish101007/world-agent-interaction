@@ -9,12 +9,21 @@ Built for an internship application with https://thehumanoid.ai.
 3. Run `npm ci` to install dependencies as listed in `package-lock.json`.
 4. Get a gemini API key from [google ai studio](https://aistudio.google.com), which needs to be put in the [`.env`](./.env) file.
 5. You can tweak other configuration settings in `.env`, including the choice of model to use. The provided `.env` file is commented so that configuration settings can be easily understood hopefully.
+6. Run `npm run build`
 
 *Note*: `.env` is gitignored so that API keys aren't accidentally committed. API keys should never be uploaded publicly.
 
+## Running
+
+To run the task named `task_name`, run `npm start -- task_name`. Current tasks are `measure_room_simple`, `measure_room_harder`.
+
+## Adding tasks
+
+To add a task, add a file in the [`src/tasks`](./src/tasks) directory that exports a `jsonSchema`, `instructions`, and `World` class that extends `World` from [`src/world.ts`](./src/world.ts). Then add it to the relevant places in [`src/tasks.ts](./src/tasks.ts).
+
 ## Design choices/process
 
-I wanted to use an observatino format that was relatively easy for me to create ad produce data for, so I chose to simply provide a distance sensor, to provide data about how far away the nearest object in the agent's sightline is. I was also interested to see if an LLM would actually be able to deal with this; it is very simple to program a robot to follow a path using this sort of data normally, but because LLMs' numerical reasoning is often fairly abysmal, I was interested to see how they would cope with the basic stuff like that, and then if it could be extended to try to detect specific objects. The generic `World` interface is defined in [`src/world.ts`]( ./src/world.ts), with more specific worlds (with data), along with objective instructions, in the [`src/tasks`](./src/tasks/) directory.
+I wanted to use an observation format that was relatively easy for me to create and produce data for, so I chose to simply provide a distance sensor, to provide data about how far away the nearest object in the agent's sightline is. I was also interested to see if an LLM would actually be able to deal with this; it is very simple to program a robot to follow a path using this sort of data normally, but because LLMs' numerical reasoning is often fairly abysmal, I was interested to see how they would cope with the basic stuff like that, and then if it could be extended to try to detect specific objects. The generic `World` interface is defined in [`src/world.ts`]( ./src/world.ts), with more specific worlds (with data), along with objective instructions, in the [`src/tasks`](./src/tasks/) directory.
 
 I chose to use gemini because it has a (limited) free tier on its API. It also supports code execution and function calls, which means that the client shouldn't need to interact with the agent using natural language, beyond the initial instructions. The workflow is, roughly speaking:
 
@@ -36,6 +45,8 @@ The data that the LLM was able to request access to was:
 - vertical angle, relative to the x-y plane
 
 Functions allowed it to change its position and angle, and read sensor data (distance to nearest wall) and position/angle state.
+
+I tried to keep the observation and action space as minimal as possible, to make it as easy as possible for the LLM to know what to use and when.
 
 When the conversation was sufficiently small, the descriptions of the various functions were well understood. When conversations went on for longer, these seemed to get lost outside of the context window and mistakes were made.
 
